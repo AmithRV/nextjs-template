@@ -15,13 +15,13 @@ function Login() {
           <form>
             <div className="mb-6">
               <label
-                htmlFor="username"
+                htmlFor="userId"
                 className="block text-sm font-medium text-gray-600 mb-2"
               >
                 UserId
               </label>
 
-              <Input type="text" placeholder="username" className="px-4 py-3" />
+              <Input type="text" placeholder="userId" className="px-4 py-3" />
             </div>
 
             <div className="mb-4">

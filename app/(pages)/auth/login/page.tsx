@@ -1,12 +1,9 @@
 "use client";
 import React from "react";
-import axios from "axios";
 import { Input } from "@/components/ui/input";
 
 function Login() {
-  const handleLogin = () => {
-    axios.post("/api/auth/login", { username: "amith", passsword: "amith" });
-  };
+  const handleLogin = () => {};
   return (
     <div className="bg-gray-100 font-sans">
       <div className="min-h-screen flex items-center justify-center px-4">

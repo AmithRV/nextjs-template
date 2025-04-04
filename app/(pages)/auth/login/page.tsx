@@ -1,7 +1,12 @@
+"use client";
 import React from "react";
+import axios from "axios";
 import { Input } from "@/components/ui/input";
 
-function page() {
+function Login() {
+  const handleLogin = () => {
+    axios.post("/api/auth/login", { username: "amith", passsword: "amith" });
+  };
   return (
     <div className="bg-gray-100 font-sans">
       <div className="min-h-screen flex items-center justify-center px-4">
@@ -16,7 +21,7 @@ function page() {
                 htmlFor="username"
                 className="block text-sm font-medium text-gray-600 mb-2"
               >
-                Username
+                UserId
               </label>
 
               <Input type="text" placeholder="username" className="px-4 py-3" />
@@ -39,7 +44,11 @@ function page() {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200"
+              className="w-full bg-blue-600 text-white py-3 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 cursor-pointer"
+              onClick={(e) => {
+                e.preventDefault();
+                handleLogin();
+              }}
             >
               Log In
             </button>
@@ -50,4 +59,4 @@ function page() {
   );
 }
 
-export default page;
+export default Login;

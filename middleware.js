@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export function middleware(request) {
   const path = request.nextUrl.pathname;
 
-  const isPublicPath = path === "/auth/login" || path === "/auth/signup";
+  const isPublicPath = path === "/auth/login";
   const token = request.cookies.get("token")?.value || "";
 
   if (isPublicPath && token) {
@@ -15,12 +15,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: [
-    "/",
-    "/auth/login",
-    "/auth/signup",
-    "/dashboard",
-    "/stock-filter",
-    "/todo-list",
-  ],
+  matcher: ["/", "/auth/login", "/dashboard"],
 };

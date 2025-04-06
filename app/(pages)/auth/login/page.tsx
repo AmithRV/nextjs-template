@@ -109,9 +109,12 @@ function Login() {
               </div>
 
               <div className="flex justify-end mb-6">
-                <a href="#" className="text-sm text-blue-600 hover:underline">
+                <Link
+                  href="/auth/forgot-password"
+                  className="text-sm text-blue-600 hover:underline"
+                >
                   Forgot password?
-                </a>
+                </Link>
               </div>
 
               <button

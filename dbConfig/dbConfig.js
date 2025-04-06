@@ -13,7 +13,7 @@ async function connect() {
     connection.on("error", (error) => {
       console.log("error while connecting to database.");
       console.log("-------------------------------------");
-      console.log(error.errorResponse);
+      console.log(error);
       console.log("-------------------------------------");
       process.exit();
     });

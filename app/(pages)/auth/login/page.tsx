@@ -3,6 +3,7 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
+import axios from "axios";
 
 type Inputs = {
   password: string;
@@ -16,8 +17,14 @@ function Login() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const handleLogin = () => {
+    axios.post("/api/auth/login", { userId: 6534598, password: "" });
+  };
 
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+    handleLogin();
+  };
   return (
     <div className="bg-gray-100 font-sans">
       <div className="min-h-screen flex items-center justify-center px-4">

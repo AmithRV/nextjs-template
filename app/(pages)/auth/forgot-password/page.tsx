@@ -1,8 +1,23 @@
+"use client";
 import React from "react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+type Inputs = {
+  email: string;
+};
 
 function ForgotPassword() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {};
+
   return (
     <div className="bg-gray-100 font-sans">
       <div className="min-h-screen flex items-center justify-center p-4">
@@ -18,7 +33,7 @@ function ForgotPassword() {
           </div>
 
           {/* <!-- Form --> */}
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label
                 htmlFor="email"
@@ -29,20 +44,23 @@ function ForgotPassword() {
               <div className="mt-1">
                 <Input
                   id="email"
-                  name="email"
                   type="email"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 
-                            focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className={cn("px-4 py-3", {
+                    "input-error": errors.email,
+                  })}
+                  {...register("email", { required: true })}
                   placeholder="your@email.com"
                 />
+                {errors.email && (
+                  <span className="form-error">email required</span>
+                )}
               </div>
             </div>
 
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium 
+                className="cursor-pointer w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium 
                         text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Send Reset Link

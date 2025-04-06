@@ -111,7 +111,7 @@ function Login() {
               <button
                 type="submit"
                 className={cn(
-                  "cursor-pointer w-full text-white font-medium py-3 rounded-md mt-6 focus:outline-none focus:ring-2",
+                  "cursor-pointer w-full text-white font-medium py-3 rounded-md focus:outline-none focus:ring-2",
                   { "bg-red-500": isLoading },
                   { "bg-blue-600": !isLoading }
                 )}

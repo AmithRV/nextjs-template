@@ -40,7 +40,7 @@ function Signup() {
         toast.success("Signup successful!");
         reset();
         setIsRedirecting(true);
-        router.push("/auth/login");
+        router.push("/dashboard");
       })
       .catch((error) => {
         toast.error("Something went wrong");

@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import { Input } from "@/components/ui/input";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import axios from "axios";
+import { Input } from "@/components/ui/input";
+import { userLogin } from "@/lib/api-collections/auth";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
   password: string;
@@ -18,13 +18,14 @@ function Login() {
   } = useForm<Inputs>();
 
   const handleLogin = () => {
-    axios.post("/api/auth/login", { userId: 6534598, password: "" });
+    userLogin({ userId: 6534598, password: "" });
   };
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
     handleLogin();
   };
+
   return (
     <div className="bg-gray-100 font-sans">
       <div className="min-h-screen flex items-center justify-center px-4">

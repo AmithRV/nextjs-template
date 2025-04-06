@@ -17,32 +17,36 @@ type Inputs = {
 };
 
 function Signup() {
+  const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
+
   const router = useRouter();
 
   const {
+    reset,
+    watch,
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<Inputs>();
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const password = watch("password");
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSignup = (userDetails: any) => {
-    setLoading(true);
+    setIsLoading(true);
     userSignup(userDetails)
       .then(() => {
         toast.success("Signup successful!");
         reset();
-        // router.push("/auth/login");
+        setIsRedirecting(true);
+        router.push("/auth/login");
       })
       .catch((error) => {
-        console.log("error : ", error);
-
         toast.error("Something went wrong");
       })
       .finally(() => {
-        setLoading(false);
+        setIsLoading(false);
       });
   };
 
@@ -52,13 +56,18 @@ function Signup() {
       email: data?.email,
       password: data?.password,
     };
-
+    setIsLoading;
     handleSignup(userDetails);
   };
 
   return (
     <>
-      <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+      <div
+        className={cn(
+          "bg-gray-100 min-h-screen flex items-center justify-center",
+          { hidden: isRedirecting }
+        )}
+      >
         <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md my-4">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-800">Create Account</h1>
@@ -123,13 +132,20 @@ function Signup() {
                   className={cn("px-4 py-3", {
                     "input-error": errors.password,
                   })}
-                  {...register("password", { required: true })}
+                  {...register("password", {
+                    required: "Password is required",
+                    validate: (value: string) => {
+                      if (value.length < 8) {
+                        return "passwords must be at least 8 characters";
+                      }
+                    },
+                  })}
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   Must be at least 8 characters
                 </p>
                 {errors.password && (
-                  <span className="form-error">password required</span>
+                  <span className="form-error">{errors.password.message}</span>
                 )}
               </div>
 
@@ -147,10 +163,16 @@ function Signup() {
                   className={cn("px-4 py-3", {
                     "input-error": errors.confirmPassword,
                   })}
-                  {...register("confirmPassword", { required: true })}
+                  {...register("confirmPassword", {
+                    required: "Password is required",
+                    validate: (value: string) =>
+                      value === password || "Passwords do not match",
+                  })}
                 />
                 {errors.confirmPassword && (
-                  <span className="form-error">password required</span>
+                  <span className="form-error">
+                    {errors.confirmPassword.message}
+                  </span>
                 )}
               </div>
 
@@ -186,10 +208,14 @@ function Signup() {
             {/* <!-- Submit button --> */}
             <button
               type="submit"
-              className="cursor-pointer w-full bg-blue-600 text-white font-medium py-3 rounded-md mt-6 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
-              disabled={loading}
+              className={cn(
+                "cursor-pointer w-full text-white font-medium py-3 rounded-md mt-6 focus:outline-none focus:ring-2",
+                { "bg-red-500": isLoading },
+                { "bg-blue-600": !isLoading }
+              )}
+              disabled={isLoading}
             >
-              {loading ? "Loading..." : "Create Account"}
+              {isLoading ? "Loading..." : "Create Account"}
             </button>
           </form>
 
@@ -247,6 +273,35 @@ function Signup() {
                 </svg>
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={cn("bg-gray-100 font-sans", { hidden: !isRedirecting })}>
+        <div className="flex items-center justify-center min-h-screen p-4">
+          <div className="bg-white rounded-lg shadow-md p-8 max-w-md w-full text-center">
+            <h1 className="text-2xl font-bold text-gray-800 mb-4">
+              Redirecting...
+            </h1>
+
+            {/* <!-- Loading spinner --> */}
+            <div className="flex justify-center my-6">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+            </div>
+
+            <p className="text-gray-600 mb-2">
+              You are being redirected to another page.
+            </p>
+            <p className="text-gray-600">
+              If you are not redirected automatically,
+              <Link
+                href="/auth/login"
+                className="text-blue-500 hover:text-blue-700 underline"
+              >
+                click here
+              </Link>
+              .
+            </p>
           </div>
         </div>
       </div>

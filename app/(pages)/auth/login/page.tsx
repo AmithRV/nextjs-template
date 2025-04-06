@@ -21,6 +21,7 @@ function Login() {
   } = useForm<Inputs>();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
 
   const handleLogin = (userDetails: any) => {
     setIsLoading(true);

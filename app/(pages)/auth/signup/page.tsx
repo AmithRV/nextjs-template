@@ -17,8 +17,6 @@ type Inputs = {
 };
 
 function Signup() {
-  const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
-
   const router = useRouter();
 
   const {
@@ -28,6 +26,8 @@ function Signup() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
+
+  const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
 
   const password = watch("password");
 

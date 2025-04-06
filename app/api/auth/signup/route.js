@@ -8,10 +8,10 @@ connect();
 export async function POST(request) {
   try {
     const reqBody = await request.json();
-    const { userid, email, password } = reqBody;
+    const { name, email, password } = reqBody;
 
     // Check if user already exists
-    const user = await User.findOne({ userid });
+    const user = await User.findOne({ email });
 
     if (user) {
       return NextResponse.json(
@@ -25,7 +25,7 @@ export async function POST(request) {
     const hashedPassword = await hash(password, salt);
 
     //Add user to the db
-    const newUser = new User({ userid, email, password: hashedPassword });
+    const newUser = new User({ name, email, password: hashedPassword });
     const savedUser = await newUser.save();
 
     return NextResponse.json({

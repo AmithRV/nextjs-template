@@ -8,7 +8,7 @@ import { userLogin } from "@/lib/api-collections/auth";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
-  userId: string;
+  email: string;
   password: string;
 };
 
@@ -38,7 +38,7 @@ function Login() {
   };
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    const userDetails = { userId: data?.userId, password: data?.password };
+    const userDetails = { email: data?.email, password: data?.password };
 
     handleLogin(userDetails);
   };
@@ -55,23 +55,23 @@ function Login() {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-6">
                 <label
-                  htmlFor="userId"
+                  htmlFor="email"
                   className="block text-sm font-bold text-gray-600 mb-2"
                 >
-                  UserId
+                  Email
                 </label>
 
                 <Input
                   type="text"
-                  placeholder="userId"
+                  placeholder="email"
                   className={cn("px-4 py-3", {
-                    "input-error": errors.userId,
+                    "input-error": errors.email,
                   })}
-                  {...register("userId", { required: true })}
+                  {...register("email", { required: true })}
                 />
 
-                {errors.userId && (
-                  <span className="form-error">userId required</span>
+                {errors.email && (
+                  <span className="form-error">email required</span>
                 )}
               </div>
 

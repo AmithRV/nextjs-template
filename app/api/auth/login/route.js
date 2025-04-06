@@ -9,10 +9,10 @@ connect();
 export async function POST(request) {
   try {
     const reqBody = await request.json();
-    const { userid, password } = reqBody;
+    const { email, password } = reqBody;
 
     // Check if user exists
-    const user = await User.findOne({ userid });
+    const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json(
         { error: "User does not exist" },
@@ -26,7 +26,7 @@ export async function POST(request) {
         // Create token data
         const tokenData = {
           id: user._id,
-          userid: user.userid,
+          email: user.email,
         };
 
         //Create token
@@ -36,7 +36,7 @@ export async function POST(request) {
 
         //Create response
         const response = NextResponse.json({
-          userId: user._id,
+          id: user._id,
           success: true,
         });
         response.cookies.set("token", token, { httpOnly: true });

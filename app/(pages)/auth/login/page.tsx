@@ -14,26 +14,32 @@ type Inputs = {
 
 function Login() {
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleLogin = (userDetails: any) => {
-    setLoading(true);
+    setIsLoading(true);
     userLogin(userDetails)
       .then(() => {
         toast.success("Successfully logged in.");
+        reset();
       })
       .catch((error) => {
-        console.log("error : ", error);
+        const msg = error.response.data.error;
 
-        toast.error("Something went wrong");
+        if (msg) {
+          toast.error(msg);
+        } else {
+          toast.error("Something went wrong");
+        }
       })
       .finally(() => {
-        setLoading(false);
+        setIsLoading(false);
       });
   };
 
@@ -104,10 +110,14 @@ function Login() {
 
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-3 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 cursor-pointer"
-                disabled={loading}
+                className={cn(
+                  "cursor-pointer w-full text-white font-medium py-3 rounded-md mt-6 focus:outline-none focus:ring-2",
+                  { "bg-red-500": isLoading },
+                  { "bg-blue-600": !isLoading }
+                )}
+                disabled={isLoading}
               >
-                {loading ? "Loading..." : "Log In"}
+                {isLoading ? "Loading..." : "Log In"}
               </button>
 
               <div className="text-center mt-6">

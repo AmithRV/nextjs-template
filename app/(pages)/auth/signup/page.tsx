@@ -1,9 +1,29 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-function page() {
+type Inputs = {
+  name: string;
+  email: string;
+  terms: boolean;
+  password: string;
+  confirmPassword: string;
+};
+
+function Signup() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md my-4">
@@ -12,7 +32,7 @@ function page() {
           <p className="text-gray-600 mt-2">Join our community today!</p>
         </div>
 
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
             {/* <!-- Name fields --> */}
             <div>
@@ -23,12 +43,14 @@ function page() {
                 Name
               </label>
               <Input
-                type="text"
                 id="text"
-                name="text"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
+                type="text"
+                className={cn("px-4 py-3", {
+                  "input-error": errors.name,
+                })}
+                {...register("name", { required: true })}
               />
+              {errors.name && <span className="form-error">name required</span>}
             </div>
 
             {/* <!-- Email --> */}
@@ -37,15 +59,19 @@ function page() {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Email Address
+                Email
               </label>
               <Input
-                type="email"
                 id="email"
-                name="email"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
+                type="email"
+                className={cn("px-4 py-3", {
+                  "input-error": errors.email,
+                })}
+                {...register("email", { required: true })}
               />
+              {errors.email && (
+                <span className="form-error">email required</span>
+              )}
             </div>
 
             {/* <!-- Password --> */}
@@ -59,13 +85,17 @@ function page() {
               <Input
                 type="password"
                 id="password"
-                name="password"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
+                className={cn("px-4 py-3", {
+                  "input-error": errors.password,
+                })}
+                {...register("password", { required: true })}
               />
               <p className="text-xs text-gray-500 mt-1">
                 Must be at least 8 characters
               </p>
+              {errors.password && (
+                <span className="form-error">password required</span>
+              )}
             </div>
 
             {/* <!-- Confirm Password --> */}
@@ -79,10 +109,14 @@ function page() {
               <Input
                 type="password"
                 id="confirmPassword"
-                name="confirmPassword"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
+                className={cn("px-4 py-3", {
+                  "input-error": errors.confirmPassword,
+                })}
+                {...register("confirmPassword", { required: true })}
               />
+              {errors.confirmPassword && (
+                <span className="form-error">password required</span>
+              )}
             </div>
 
             {/* <!-- Terms checkbox --> */}
@@ -90,9 +124,13 @@ function page() {
               <Input
                 type="checkbox"
                 id="terms"
-                name="terms"
-                className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                required
+                className={cn(
+                  "mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded",
+                  {
+                    "input-error": errors.terms,
+                  }
+                )}
+                {...register("terms", { required: true })}
               />
               <label
                 htmlFor="terms"
@@ -113,7 +151,7 @@ function page() {
           {/* <!-- Submit button --> */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white font-medium py-3 rounded-md mt-6 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            className="cursor-pointer w-full bg-blue-600 text-white font-medium py-3 rounded-md mt-6 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
           >
             Create Account
           </button>
@@ -168,4 +206,4 @@ function page() {
   );
 }
 
-export default page;
+export default Signup;

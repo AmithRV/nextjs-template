@@ -2,9 +2,12 @@ import { NextResponse } from "next/server";
 
 export function middleware(request) {
   const path = request.nextUrl.pathname;
-
-  const isPublicPath = path === "/auth/login";
+  console.log("path : ", path);
+  const isPublicPath = path === "/auth/login" || path === "/auth/signup";
   const token = request.cookies.get("token")?.value || "";
+
+  console.log("isPublicPath : ", isPublicPath);
+  console.log("token : ", token);
 
   if (isPublicPath && token) {
     return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
@@ -15,5 +18,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/", "/auth/login"],
+  matcher: ["/", "/auth/login", "/auth/signup", "/dashboard"],
 };

@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { userLogin } from "@/lib/api-collections/auth";
 import { useForm, SubmitHandler } from "react-hook-form";
+import Link from "next/link";
 
 type Inputs = {
   password: string;
@@ -78,12 +79,30 @@ function Login() {
               )}
             </div>
 
+            <div className="flex justify-end mb-6">
+              <a href="#" className="text-sm text-blue-600 hover:underline">
+                Forgot password?
+              </a>
+            </div>
+
             <button
               type="submit"
               className="w-full bg-blue-600 text-white py-3 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 cursor-pointer"
             >
               Log In
             </button>
+
+            <div className="text-center mt-6">
+              <p className="text-sm text-gray-600">
+                Don&rsquo;t have an account?{" "}
+                <Link
+                  href="/auth/signup"
+                  className="text-blue-600 font-medium hover:underline"
+                >
+                  Register
+                </Link>
+              </p>
+            </div>
           </form>
         </div>
       </div>

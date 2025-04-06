@@ -27,11 +27,10 @@ function Signup() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
-
   const password = watch("password");
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
 
   const handleSignup = (userDetails: any) => {
     setIsLoading(true);
@@ -40,7 +39,7 @@ function Signup() {
         toast.success("Signup successful!");
         reset();
         setIsRedirecting(true);
-        router.push("/dashboard");
+        router.push("/auth/login");
       })
       .catch((error) => {
         toast.error("Something went wrong");

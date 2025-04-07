@@ -16,6 +16,8 @@ const userSchema = new Schema({
     type: String,
     require: [true, "Please provide a password"],
   },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
 });
 
 const User = mongoose.models.users || mongoose.model("users", userSchema);

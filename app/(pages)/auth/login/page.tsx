@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import toast, { Toaster } from "react-hot-toast";
 import { userLogin } from "@/lib/api-collections/auth";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { saveToLocalStorage } from "@/util/localstorageActions";
 
 type Inputs = {
   email: string;
@@ -29,7 +30,11 @@ function Login() {
   const handleLogin = (userDetails: any) => {
     setIsLoading(true);
     userLogin(userDetails)
-      .then(() => {
+      .then((response) => {
+        const data = response.data;
+
+        saveToLocalStorage("userDetails", data);
+
         toast.success("Successfully logged in.");
         reset();
         setIsRedirecting(true);

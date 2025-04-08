@@ -1,5 +1,4 @@
 "use client";
-
 import {
   AudioWaveform,
   BookOpen,
@@ -22,9 +21,10 @@ import {
 import type * as React from "react";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
+import { useEffect, useState } from "react";
 import { NavProjects } from "./nav-projects";
 import { TeamSwitcher } from "./team-switcher";
-
+import { getFromLocalStorage } from "@/util/localstorageActions";
 // This is sample data.
 const data = {
   user: {
@@ -156,6 +156,16 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  // const userDetails: any = getFromLocalStorage("userDetails");
+  const [userDetails, setUserDetails] = useState<any>({});
+
+  useEffect(() => {
+    getFromLocalStorage("userDetails").then((response) => {
+      console.log("response : ", response);
+      setUserDetails({ name: response?.name, email: response?.email });
+    });
+  }, []);
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -166,7 +176,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser
+          user={{
+            name: userDetails?.name || "",
+            email: userDetails?.email || "",
+            avatar: "/avatars/shadcn.jpg",
+          }}
+        />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

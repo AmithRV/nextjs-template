@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { useParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { resetPassword } from "@/lib/api-collections/auth";
@@ -13,8 +13,8 @@ type Inputs = {
 };
 
 function page() {
-  const router = useRouter();
-  const { token } = router.query;
+  const params = useParams();
+  const { token } = params;
 
   const {
     register,

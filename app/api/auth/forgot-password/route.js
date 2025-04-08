@@ -14,7 +14,6 @@ export async function POST(request) {
     // Check if user already exists
     const user = await User.findOne({ email });
 
-    console.log("user : ", user);
     if (user) {
       // Generate token and set expiry (1 hour from now)
       const token = crypto.randomBytes(20).toString("hex");
@@ -24,10 +23,13 @@ export async function POST(request) {
       await user.save();
 
       // Send email with reset link
-      const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${token}`;
+      const resetUrl = `${process.env.NEXT_PUBLIC_DOMAIN}/reset-password?token=${token}`;
       await sendResetEmail(user.email, resetUrl);
 
-      res.status(200).json({ message: "Password reset email sent" });
+      NextResponse.json(
+        { message: "Password reset email sent" },
+        { status: 200 }
+      );
     } else {
       return NextResponse.json({ error: "Not a valid email" }, { status: 400 });
     }

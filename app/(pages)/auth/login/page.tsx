@@ -38,7 +38,7 @@ function Login() {
         toast.success("Successfully logged in.");
         reset();
         setIsRedirecting(true);
-        router.push("/dashboard");
+        router.push("/");
       })
       .catch((error) => {
         const msg = error.response.data.error;

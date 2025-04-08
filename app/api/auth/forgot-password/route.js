@@ -23,7 +23,7 @@ export async function POST(request) {
       await user.save();
 
       // Send email with reset link
-      const resetUrl = `${process.env.NEXT_PUBLIC_DOMAIN}/reset-password?token=${token}`;
+      const resetUrl = `${process.env.NEXT_PUBLIC_DOMAIN}/auth/reset-password?token=${token}`;
       await sendResetEmail(user.email, resetUrl);
 
       NextResponse.json(

@@ -1,5 +1,4 @@
 "use client";
-
 import {
   BadgeCheck,
   Bell,
@@ -25,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { userLogout } from "@/lib/api-collections/auth";
 
 type user = {
   name: string;
@@ -103,7 +103,14 @@ export function NavUser({ user }: props) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => {
+                userLogout().then(() => {
+                  window.navigation.reload();
+                });
+              }}
+            >
               <LogOut />
               Log out
             </DropdownMenuItem>

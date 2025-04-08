@@ -27,7 +27,7 @@ export async function POST(request) {
 
       await user.save();
 
-      NextResponse.json(
+      return NextResponse.json(
         { message: "Password updated successfully" },
         { status: 200 }
       );

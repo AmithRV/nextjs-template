@@ -4,9 +4,9 @@ import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import toast, { Toaster } from "react-hot-toast";
-import { useSearchParams } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { resetPassword } from "@/lib/api-collections/auth";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type Inputs = {
   password: string;
@@ -14,6 +14,7 @@ type Inputs = {
 };
 
 function page() {
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   const {
@@ -26,13 +27,17 @@ function page() {
   const password = watch("password");
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isResetSuccessfull, setIsResetSuccessfull] = useState<boolean>(true);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const token = searchParams.get("token");
 
     setIsLoading(true);
     resetPassword({ token, password: data.password })
-      .then(() => {})
+      .then(() => {
+        setIsResetSuccessfull(true);
+        router.push("/auth/login");
+      })
       .catch((error) => {
         const message = error.response.data.error;
 
@@ -49,7 +54,9 @@ function page() {
 
   return (
     <>
-      <div className="bg-gray-100 font-sans">
+      <div
+        className={cn("bg-gray-100 font-sans", { hidden: isResetSuccessfull })}
+      >
         <div className="min-h-screen flex items-center justify-center px-4">
           <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
             {/* <!-- Logo --> */}
@@ -168,6 +175,37 @@ function page() {
                 Back to login
               </Link>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={cn("bg-gray-100 font-sans", { hidden: !isResetSuccessfull })}
+      >
+        <div className="flex items-center justify-center min-h-screen p-4">
+          <div className="bg-white rounded-lg shadow-md p-8 max-w-md w-full text-center">
+            <h1 className="text-2xl font-bold text-gray-800 mb-4">
+              Redirecting...
+            </h1>
+
+            {/* <!-- Loading spinner --> */}
+            <div className="flex justify-center my-6">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+            </div>
+
+            <p className="text-gray-600 mb-2">
+              You are being redirected to another page.
+            </p>
+            <p className="text-gray-600">
+              If you are not redirected automatically,
+              <Link
+                href="/auth/login"
+                className="text-blue-500 hover:text-blue-700 underline"
+              >
+                click here
+              </Link>
+              .
+            </p>
           </div>
         </div>
       </div>

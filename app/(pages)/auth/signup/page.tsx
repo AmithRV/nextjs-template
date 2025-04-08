@@ -86,6 +86,7 @@ function Signup() {
                 <Input
                   id="text"
                   type="text"
+                  placeholder="name"
                   className={cn("px-4 py-3", {
                     "input-error": errors.name,
                   })}
@@ -107,6 +108,7 @@ function Signup() {
                 <Input
                   id="email"
                   type="email"
+                  placeholder="email"
                   className={cn("px-4 py-3", {
                     "input-error": errors.email,
                   })}
@@ -128,6 +130,7 @@ function Signup() {
                 <Input
                   type="password"
                   id="password"
+                  placeholder="password"
                   className={cn("px-4 py-3", {
                     "input-error": errors.password,
                   })}
@@ -159,6 +162,7 @@ function Signup() {
                 <Input
                   type="password"
                   id="confirmPassword"
+                  placeholder="password"
                   className={cn("px-4 py-3", {
                     "input-error": errors.confirmPassword,
                   })}

@@ -197,13 +197,21 @@ function Signup() {
                   className="ml-2 block text-sm text-gray-700"
                 >
                   I agree to the{" "}
-                  <a href="#" className="text-blue-600 hover:underline">
+                  <Link
+                    target="_blank"
+                    href="/auth/terms-of-service"
+                    className="text-blue-600 hover:underline"
+                  >
                     Terms of Service
-                  </a>{" "}
+                  </Link>{" "}
                   and{" "}
-                  <a href="#" className="text-blue-600 hover:underline">
+                  <Link
+                    target="_blank"
+                    href="/auth/privacy-policy"
+                    className="text-blue-600 hover:underline"
+                  >
                     Privacy Policy
-                  </a>
+                  </Link>
                 </label>
               </div>
             </div>

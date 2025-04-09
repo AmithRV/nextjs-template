@@ -84,11 +84,17 @@ function Login() {
                   className={cn("px-4 py-3", {
                     "input-error": errors.email,
                   })}
-                  {...register("email", { required: true })}
+                  {...register("email", {
+                    required: "email is required",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "invalid email format",
+                    },
+                  })}
                 />
 
                 {errors.email && (
-                  <span className="form-error">email required</span>
+                  <span className="form-error">{errors.email.message}</span>
                 )}
               </div>
 
@@ -162,9 +168,7 @@ function Login() {
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
             </div>
 
-            <p className="text-gray-600 mb-2">
-              You are being redirected to another page.
-            </p>
+            <p className="text-gray-600 mb-2">redirecting.</p>
             <p className="text-gray-600">
               If you are not redirected automatically,
               <Link
